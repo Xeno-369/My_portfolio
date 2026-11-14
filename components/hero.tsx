@@ -36,8 +36,8 @@ export function Hero({ lang, t }: { lang: Locale; t: Dict }) {
           </Reveal>
 
           <Reveal delay={0.18}>
-            <p className="mt-7 max-w-xl text-2xl leading-snug tracking-tight text-fg sm:text-[1.7rem]">
-              {profile.tagline[lang]}
+            <p lang="en" className="mt-7 max-w-xl text-2xl leading-snug tracking-tight text-fg sm:text-[1.7rem]">
+              {profile.tagline}
             </p>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-muted">{profile.intro[lang]}</p>
           </Reveal>
@@ -90,12 +90,12 @@ export function Hero({ lang, t }: { lang: Locale; t: Dict }) {
           {stats.map((s, i) => {
             const body = (
               <>
-                <p className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">{s.value}</p>
+                <p className="text-2xl font-semibold tracking-tight text-fg sm:text-3xl">{s.value[lang]}</p>
                 <p className="mt-1.5 text-xs leading-snug text-muted sm:text-sm">{s.label[lang]}</p>
               </>
             );
             return (
-              <Reveal key={s.value} delay={0.05 * i} className="bg-bg">
+              <Reveal key={s.label.en} delay={0.05 * i} className="bg-bg">
                 {s.href ? (
                   <a
                     href={s.href}

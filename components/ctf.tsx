@@ -15,7 +15,7 @@ export function Ctf({ lang, t }: { lang: Locale; t: Dict }) {
               const row = (
                 <>
                   <span className="w-28 shrink-0 text-xl font-semibold tracking-tight text-accent sm:w-36 sm:text-2xl">
-                    {r.value}
+                    {r.value[lang]}
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-center gap-1.5 font-medium text-fg">

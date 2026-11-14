@@ -130,6 +130,7 @@ export function Terminal({ lang }: { lang: Locale }) {
         return out(
           `${profile.name} (${profile.alias})`,
           profile.role[lang],
+          profile.tagline,
           profile.location[lang],
           `"${profile.doctrine}"`,
         );
@@ -170,7 +171,7 @@ export function Terminal({ lang }: { lang: Locale }) {
       case "skills":
         return skillGroups.flatMap((g) => out(`[${g.title[lang]}]`, "  " + g.items.join(" · ")));
       case "ctf":
-        return out(...rankings.map((r) => `${r.title.padEnd(32)} ${r.value}  ${r.detail[lang]}`));
+        return out(...rankings.map((r) => `${r.title.padEnd(32)} ${r.value[lang].padEnd(12)} ${r.detail[lang]}`));
       case "certs":
         return out(...certifications.map((x) => `${x.date[lang].padEnd(10)} ${x.title} — ${x.org}`));
       case "experience":

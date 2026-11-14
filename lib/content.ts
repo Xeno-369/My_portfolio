@@ -9,10 +9,8 @@ export const profile = {
     "Étudiant ingénieur · systèmes, réseaux & cybersécurité",
     "Engineering student · systems, networks & cybersecurity",
   ),
-  tagline: l(
-    "Je casse des systèmes pour comprendre comment les rendre solides.",
-    "I break systems to understand how to make them hold.",
-  ),
+  // Devise : toujours en anglais, quelle que soit la langue de la page.
+  tagline: "Computer Science student by day, but CTF player by night.",
   intro: l(
     "En 2ᵉ année à l'IAI-Togo, je construis des outils de détection, j'audite du code et je joue en CTF. Ce site montre le travail, pas le décor.",
     "Second-year student at IAI-Togo. I build detection tools, audit code and play CTFs. This site shows the work, not the scenery.",
@@ -43,19 +41,18 @@ export const socials = [
   { label: "Mastodon", href: profile.mastodon },
 ];
 
-export const stats: { value: string; label: L; href?: string }[] = [
+export const stats: { value: L; label: L; href?: string }[] = [
   {
-    value: "5ᵉ / 5 377",
+    value: l("5ᵉ / 5 377", "5th / 5,377"),
     label: l("Cyberini · top 1 %", "Cyberini · top 1%"),
     href: profile.cyberini,
   },
   {
-    value: "41",
-    label: l("salles TryHackMe · niveau 7", "TryHackMe rooms · level 7"),
-    href: profile.tryhackme,
+    value: l("Finaliste", "Finalist"),
+    label: l("NCTF 2026 · CTF national du Togo", "NCTF 2026 · Togo's national CTF"),
   },
-  { value: "4 / 4", label: l("missions de stage livrées", "internship tasks shipped") },
-  { value: "6", label: l("certifications", "certifications") },
+  { value: l("4 / 4", "4 / 4"), label: l("missions de stage livrées", "internship tasks shipped") },
+  { value: l("6", "6"), label: l("certifications", "certifications") },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -530,32 +527,35 @@ export const tools = [
 /* CTF & certifications                                                */
 /* ------------------------------------------------------------------ */
 
-export const rankings: { title: string; value: string; detail: L; href?: string }[] = [
+export const rankings: { title: string; value: L; detail: L; href?: string }[] = [
+  {
+    title: "NCTF · ANCy",
+    value: l("Finaliste", "Finalist"),
+    detail: l(
+      "Finaliste du NCTF 2026 · participation active au CTF national",
+      "NCTF 2026 finalist · active competitor in the national CTF",
+    ),
+  },
   {
     title: "Cyberini",
-    value: "5ᵉ / 5 377",
+    value: l("5ᵉ / 5 377", "5th / 5,377"),
     detail: l("7 710 points · 58 challenges · rang Cyber Maître", "7,710 points · 58 challenges · Cyber Maître rank"),
     href: profile.cyberini,
   },
   {
     title: "TryHackMe",
-    value: "Top 15 %",
-    detail: l("3 356 points · 41 salles · niveau 7 · ligue Silver", "3,356 points · 41 rooms · level 7 · Silver league"),
+    value: l("Top 15 %", "Top 15%"),
+    detail: l("Classement mondial · entraînement régulier", "Global ranking · regular training"),
     href: profile.tryhackme,
   },
   {
-    title: "CTF National · ANSI",
-    value: "TG",
-    detail: l("Participations aux CTF nationaux organisés par l'ANSI", "Entries in the national CTFs run by ANSI"),
-  },
-  {
     title: "EcowasCTF",
-    value: "CEDEAO",
+    value: l("CEDEAO", "ECOWAS"),
     detail: l("Compétition régionale : web, crypto, forensic, reverse", "Regional competition: web, crypto, forensics, reverse"),
   },
   {
     title: "CTFtime · Root-Me · HackTheBox",
-    value: "∞",
+    value: l("∞", "∞"),
     detail: l("Compétitions en ligne et entraînement régulier", "Online competitions and regular training"),
   },
 ];
