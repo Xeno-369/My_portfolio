@@ -1,103 +1,93 @@
+import Link from "next/link";
 import { experience } from "@/lib/content";
-import { Hud } from "./hud";
+import type { Dict, Locale } from "@/lib/i18n";
+import { ArrowRight, ArrowUpRight, Check } from "./icons";
+import { Reveal } from "./reveal";
+import { Section } from "./section";
 
-export function Experience() {
+export function Experience({ lang, t }: { lang: Locale; t: Dict }) {
+  const e = experience;
   return (
-    <section id="experience" className="mx-auto max-w-6xl px-4 py-12">
-      <p className="font-mono text-xs tracking-[0.32em] text-[var(--accent)] uppercase">
-        //03. stage
-      </p>
-      <h2 className="font-display mt-2 text-3xl md:text-4xl">Expérience</h2>
-      <div className="mt-8 space-y-4">
-        {experience.map((job) => {
-          const done = job.tasks.filter((t) => t.status === "livré").length;
-          const total = job.tasks.length;
-          return (
-            <Hud key={job.id} label={job.org} className="overflow-hidden">
-              <div className="p-5 md:p-6">
-                <p className="font-mono text-[10px] tracking-widest text-[var(--accent)] uppercase">
-                  {job.dates} · {job.status}
-                </p>
-                <h3 className="font-display mt-2 text-xl">{job.role}</h3>
-                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[var(--muted)]">
-                  {job.summary}
-                </p>
-                <div className="mt-4 h-1.5 overflow-hidden border border-[var(--line)]">
-                  <div
-                    className="h-full bg-[var(--accent)]"
-                    style={{ width: `${(done / total) * 100}%` }}
-                  />
-                </div>
-                <p className="mt-2 font-mono text-[10px] tracking-widest text-[var(--dim)] uppercase">
-                  Avancement {done}/{total}
-                </p>
-                <ol className="mt-6 grid gap-3 md:grid-cols-2">
-                  {job.tasks.map((t) => (
-                    <li key={t.n} className="hud p-4">
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-[10px] tracking-widest text-[var(--dim)]">
-                          TASK {t.n}
-                        </span>
-                        <span
-                          className={`font-mono text-[10px] tracking-widest uppercase ${
-                            t.status === "livré" ? "text-[var(--accent)]" : "text-[var(--muted)]"
-                          }`}
-                        >
-                          {t.status}
-                        </span>
-                      </div>
-                      <h4 className="mt-2 text-sm font-semibold">{t.title}</h4>
-                      <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">{t.detail}</p>
-                      {t.href ? (
-                        <a
-                          href={t.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="mt-3 inline-block font-mono text-[10px] tracking-widest uppercase text-[var(--accent)]"
-                        >
-                          Repo GitHub →
-                        </a>
-                      ) : (
-                        <p className="mt-3 font-mono text-[10px] tracking-widest text-[var(--dim)] uppercase">
-                          Livrable à venir
-                        </p>
-                      )}
-                    </li>
-                  ))}
-                </ol>
-                <div className="mt-5 flex flex-wrap items-center gap-2">
-                  {job.skills.map((s) => (
-                    <span
-                      key={s}
-                      className="border border-[var(--line)] px-2 py-0.5 font-mono text-[10px] text-[var(--dim)]"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                  {job.brief ? (
-                    <a
-                      href={job.brief}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hud ml-auto px-3 py-2 font-mono text-[10px] tracking-widest uppercase"
-                    >
-                      Brief missions PDF
-                    </a>
-                  ) : null}
-                </div>
+    <Section id="experience" zone="blue" kicker={t.experience.kicker} title={t.experience.title}>
+      <Reveal className="card p-6 sm:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h3 className="text-2xl font-semibold tracking-tight">
+              {e.role[lang]} <span className="text-muted">·</span>{" "}
+              <span className="text-accent">{e.org}</span>
+            </h3>
+            <p className="mt-1.5 font-mono text-xs text-muted">{e.dates[lang]}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {[t.experience.done, t.experience.certified].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-1.5 rounded-full bg-accent/12 px-3 py-1 text-xs font-medium text-accent"
+              >
+                <Check width={13} height={13} />
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+        <p className="mt-5 max-w-3xl leading-relaxed text-muted">{e.summary[lang]}</p>
+        <a
+          href={e.brief}
+          target="_blank"
+          rel="noreferrer"
+          className="link mt-4 inline-flex items-center gap-1.5 text-sm"
+        >
+          {t.experience.brief}
+          <ArrowUpRight width={14} height={14} />
+        </a>
+      </Reveal>
+
+      <ol className="mt-4 grid gap-4 md:grid-cols-2">
+        {e.tasks.map((task, i) => (
+          <Reveal as="li" key={task.n} delay={0.06 * i} className="card card-hover flex flex-col p-6">
+            <div className="flex items-baseline justify-between">
+              <span className="font-mono text-xs text-dim">task/{task.n}</span>
+              <span className="inline-flex items-center gap-1 font-mono text-[11px] text-accent">
+                <Check width={12} height={12} />
+                {t.experience.done.toLowerCase()}
+              </span>
+            </div>
+            <h4 className="mt-3 text-lg font-semibold tracking-tight">{task.title}</h4>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{task.detail[lang]}</p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {task.tags.map((tag) => (
+                <span key={tag} className="chip">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            {task.slug || task.repo ? (
+              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-sm">
+                {task.slug ? (
+                  <Link
+                    href={`/${lang}/projects/${task.slug}`}
+                    className="inline-flex items-center gap-1.5 font-medium text-accent"
+                  >
+                    {t.experience.caseStudy}
+                    <ArrowRight width={14} height={14} />
+                  </Link>
+                ) : null}
+                {task.repo ? (
+                  <a
+                    href={task.repo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link inline-flex items-center gap-1.5 text-muted"
+                  >
+                    {t.experience.repo}
+                    <ArrowUpRight width={14} height={14} />
+                  </a>
+                ) : null}
               </div>
-              {job.images?.length ? (
-                <div className="grid grid-cols-2 gap-px border-t border-[var(--line)]">
-                  {job.images.map((src) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img key={src} src={src} alt="" className="h-36 w-full object-cover md:h-44" />
-                  ))}
-                </div>
-              ) : null}
-            </Hud>
-          );
-        })}
-      </div>
-    </section>
+            ) : null}
+          </Reveal>
+        ))}
+      </ol>
+    </Section>
   );
 }

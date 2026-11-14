@@ -1,79 +1,117 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
+import type { Dict, Locale } from "@/lib/i18n";
 import { profile } from "@/lib/content";
-import { useTheme } from "./theme";
+import { MenuIcon, TerminalIcon, XIcon } from "./icons";
+import { ThemeToggle } from "./theme-toggle";
+import { openTerminal } from "./terminal";
 
-const links = [
-  ["//01", "Profil", "#profil"],
-  ["//02", "Terminal", "#terminal"],
-  ["//03", "Stage", "#experience"],
-  ["//04", "Projets", "#projets"],
-  ["//05", "Skills", "#skills"],
-  ["//06", "Hall", "#hall"],
-  ["//07", "Contact", "#contact"],
-];
-
-export function Nav() {
-  const { mode, toggle } = useTheme();
+export function Nav({ lang, t }: { lang: Locale; t: Dict }) {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const other: Locale = lang === "fr" ? "en" : "fr";
+  const otherHref = pathname.replace(/^\/(fr|en)/, `/${other}`);
+
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 12));
+
+  const links = [
+    ["experience", t.nav.experience],
+    ["projects", t.nav.projects],
+    ["skills", t.nav.skills],
+    ["ctf", t.nav.ctf],
+    ["contact", t.nav.contact],
+  ] as const;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[color-mix(in_oklab,var(--bg)_82%,transparent)] backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <a href="#top" className="font-display text-lg tracking-[0.22em] text-[var(--accent)]">
-          {profile.alias}
-        </a>
-        <nav className="hidden items-center gap-4 text-xs font-mono lg:flex">
-          {links.map(([id, label, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="group flex gap-2 text-[var(--muted)] hover:text-[var(--accent)]"
-            >
-              <span className="text-[var(--dim)] group-hover:text-[var(--accent)]">{id}</span>
+    <header
+      className={`sticky top-0 z-40 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        scrolled || open
+          ? "border-b border-line bg-bg/75 backdrop-blur-xl"
+          : "border-b border-transparent"
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
+        <Link href={`/${lang}`} className="font-mono text-sm tracking-tight text-fg">
+          <span className="text-accent">~/</span>xeno_369
+        </Link>
+
+        <nav className="hidden items-center gap-7 text-sm text-muted md:flex">
+          {links.map(([id, label]) => (
+            <Link key={id} href={`/${lang}#${id}`} className="transition-colors hover:text-fg">
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
+
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={toggle}
-            className="hud px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase"
+            onClick={openTerminal}
+            className="hidden h-9 items-center gap-2 rounded-full border border-line px-3 font-mono text-xs text-muted transition-colors hover:border-accent hover:text-accent sm:inline-flex"
           >
-            {mode === "night" ? "mode://engineer" : "mode://cyber"}
+            <TerminalIcon />
+            {t.terminal}
+            <kbd className="rounded border border-line px-1.5 py-0.5 text-[10px] text-dim">Ctrl K</kbd>
           </button>
-          <a
-            href={profile.cv}
-            className="hidden px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase text-[var(--bg)] bg-[var(--accent)] sm:inline"
+          <Link
+            href={otherHref}
+            hrefLang={other}
+            aria-label={t.switchLang}
+            title={t.switchLang}
+            className="grid h-9 w-9 place-items-center rounded-full border border-line font-mono text-xs uppercase text-muted transition-colors hover:border-accent hover:text-accent"
           >
-            CV
+            {other}
+          </Link>
+          <ThemeToggle toDay={t.themeToDay} toNight={t.themeToNight} />
+          <a href={profile.cv} className="btn btn-primary hidden !h-9 !px-4 !text-xs sm:inline-flex">
+            {t.cv}
           </a>
           <button
             type="button"
-            className="hud px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-full border border-line text-muted md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            aria-label="Menu"
+            aria-label={open ? t.close : t.menu}
           >
-            {open ? "close" : "menu"}
+            {open ? <XIcon /> : <MenuIcon />}
           </button>
         </div>
       </div>
+
       {open ? (
-        <nav className="grid gap-1 border-t border-[var(--line)] px-4 py-3 font-mono text-xs lg:hidden">
-          {links.map(([id, label, href]) => (
-            <a
-              key={href}
-              href={href}
+        <nav className="grid gap-1 border-t border-line px-5 py-4 md:hidden">
+          {links.map(([id, label]) => (
+            <Link
+              key={id}
+              href={`/${lang}#${id}`}
               onClick={() => setOpen(false)}
-              className="flex gap-3 py-2 text-[var(--muted)]"
+              className="py-2.5 text-lg text-fg"
             >
-              <span className="text-[var(--dim)]">{id}</span>
               {label}
-            </a>
+            </Link>
           ))}
+          <div className="mt-3 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openTerminal();
+              }}
+              className="btn flex-1"
+            >
+              <TerminalIcon />
+              {t.terminal}
+            </button>
+            <a href={profile.cv} className="btn btn-primary flex-1">
+              {t.cv}
+            </a>
+          </div>
         </nav>
       ) : null}
     </header>

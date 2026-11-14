@@ -1,47 +1,44 @@
 import { skillGroups, tools } from "@/lib/content";
-import { Hud } from "./hud";
+import type { Dict, Locale } from "@/lib/i18n";
+import { Reveal } from "./reveal";
+import { Section } from "./section";
 
-export function Skills() {
+export function Skills({ lang, t }: { lang: Locale; t: Dict }) {
   return (
-    <section id="skills" className="mx-auto max-w-6xl px-4 py-12">
-      <p className="font-mono text-xs tracking-[0.32em] text-[var(--accent)] uppercase">
-        //05. loadout
-      </p>
-      <h2 className="font-display mt-2 text-3xl md:text-4xl">Compétences & outils</h2>
-      <Hud label="toolbox" className="mt-8 p-5">
-        <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9">
-          {tools.map((t) => (
-            <li
-              key={t.slug}
-              className="flex flex-col items-center gap-2 border border-[var(--line)] px-2 py-3 transition-transform duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`https://cdn.simpleicons.org/${t.slug}/4dffc3`}
-                alt=""
-                className="h-8 w-8 object-contain"
-              />
-              <span className="text-center font-mono text-[10px] tracking-wide">{t.name}</span>
-            </li>
-          ))}
-        </ul>
-      </Hud>
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        {skillGroups.map((g) => (
-          <Hud key={g.title} label={g.title} className="p-5">
-            <ul className="mt-2 flex flex-wrap gap-2">
+    <Section id="skills" zone="teal" kicker={t.skills.kicker} title={t.skills.title}>
+      <div className="grid gap-4 md:grid-cols-2">
+        {skillGroups.map((g, i) => (
+          <Reveal key={g.title.en} delay={0.05 * i} className="card p-6 sm:p-7">
+            <h3 className="flex items-baseline justify-between text-lg font-semibold tracking-tight">
+              {g.title[lang]}
+              <span className="font-mono text-xs font-normal text-dim">
+                {String(g.items.length).padStart(2, "0")}
+              </span>
+            </h3>
+            <ul className="mt-5 flex flex-wrap gap-2">
               {g.items.map((item) => (
                 <li
                   key={item}
-                  className="border border-[var(--line)] bg-[color-mix(in_oklab,var(--accent)_8%,transparent)] px-3 py-1.5 font-mono text-xs transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                  className="rounded-lg border border-line bg-surface-2/60 px-3 py-1.5 text-sm text-fg/90 transition-colors hover:border-accent hover:text-accent"
                 >
                   {item}
                 </li>
               ))}
             </ul>
-          </Hud>
+          </Reveal>
         ))}
       </div>
-    </section>
+
+      <Reveal className="mt-4 overflow-hidden rounded-2xl border border-line py-4 [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
+        <ul className="marquee flex w-max gap-10 font-mono text-sm text-muted">
+          {[...tools, ...tools].map((tool, i) => (
+            <li key={i} aria-hidden={i >= tools.length} className="flex items-center gap-10">
+              {tool}
+              <span className="text-accent">/</span>
+            </li>
+          ))}
+        </ul>
+      </Reveal>
+    </Section>
   );
 }

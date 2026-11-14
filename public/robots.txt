@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 2/3 — les robots ne savent pas tout. Demande aux humains.
+# 2/3 — robots don't know everything. Ask the humans.
