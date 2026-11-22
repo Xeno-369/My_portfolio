@@ -12,8 +12,8 @@ export const profile = {
   // Devise : toujours en anglais, quelle que soit la langue de la page.
   tagline: "Computer Science student by day, but CTF player by night.",
   intro: l(
-    "En 2ᵉ année à l'IAI-Togo, je construis des outils de détection, j'audite du code et je joue en CTF. Ce site montre le travail, pas le décor.",
-    "Second-year student at IAI-Togo. I build detection tools, audit code and play CTFs. This site shows the work, not the scenery.",
+    "Étudiant en informatique, mordu de sécurité et de systèmes — j'apprends en construisant, en cassant puis en réparant. Projets, audits et CTF sont mon terrain de jeu, avec l'envie d'aller vers la cryptographie et la sécurité de demain. Toujours partant pour échanger et apprendre.",
+    "Computer science student, hooked on security and systems — I learn by building, breaking, then fixing. Projects, audits and CTFs are my playground, with an eye toward cryptography and the security of tomorrow. Always up for a chat and to keep learning.",
   ),
   doctrine: "Understand the break. Own the fix. Leave the system stronger.",
   location: l("Lomé, Togo", "Lomé, Togo"),
@@ -520,7 +520,9 @@ export const skillGroups: { title: L; zone: Zone; items: string[] }[] = [
 ];
 
 export const tools = [
-  "Wireshark", "Nmap", "Burp Suite", "Ghidra", "Scapy", "Snort", "Docker", "Git", "Arduino IDE", "Remix IDE",
+  "Wireshark", "Burp Suite", "Metasploit", "Nmap", "sqlmap", "Hashcat", "John the Ripper", "Hydra",
+  "Ghidra", "radare2", "pwntools", "Scapy", "Volatility", "Binwalk", "CyberChef", "Gobuster", "Netcat",
+  "Snort", "Docker", "Git", "Arduino IDE", "Remix IDE",
 ];
 
 /* ------------------------------------------------------------------ */
