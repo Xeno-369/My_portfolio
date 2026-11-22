@@ -52,19 +52,20 @@ export function BootIntro() {
       push(() => setPhase("out"), 1500);
       push(() => setMounted(false), 2150);
     } else {
-      const start = 450;
-      const speed = 95;
+      // Minutage calibré pour une intro de 6,7 s au total (frappe + pauses + glitch + fondu).
+      const start = 650;
+      const speed = 118;
       for (let i = 1; i <= MAIN.length; i++) {
         push(() => setTyped(MAIN.slice(0, i)), start + i * speed);
       }
-      const afterMain = start + MAIN.length * speed + 520;
+      const afterMain = start + MAIN.length * speed + 820;
       for (let i = 1; i <= SUB.length; i++) {
-        push(() => setSub(SUB.slice(0, i)), afterMain + i * 30);
+        push(() => setSub(SUB.slice(0, i)), afterMain + i * 38);
       }
-      const afterSub = afterMain + SUB.length * 30 + 680;
+      const afterSub = afterMain + SUB.length * 38 + 1030;
       push(() => setPhase("glitch"), afterSub);
-      push(() => setPhase("out"), afterSub + 520);
-      push(() => setMounted(false), afterSub + 1120);
+      push(() => setPhase("out"), afterSub + 850);
+      push(() => setMounted(false), afterSub + 850 + 900);
     }
 
     const onKey = () => dismiss();

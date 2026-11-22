@@ -256,7 +256,7 @@ body {
   cursor: pointer;
   animation: boot-in 0.25s ease both;
 }
-.boot--out { animation: boot-out 0.6s ease forwards; }
+.boot--out { animation: boot-out 0.9s ease forwards; }
 @keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes boot-out { to { opacity: 0; visibility: hidden; filter: blur(7px); } }
 
