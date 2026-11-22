@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
+import { BootIntro } from "@/components/boot-intro";
 import { Nav } from "@/components/nav";
 import { Terminal } from "@/components/terminal";
 import { ScrollProgress, ZoneWatcher } from "@/components/zone";
@@ -67,6 +68,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     >
       <body className="min-h-dvh">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <BootIntro />
         {/* flag 1/3 — pour celles et ceux qui lisent le code source */}
         <div
           hidden

@@ -12,8 +12,8 @@ export const profile = {
   // Devise : toujours en anglais, quelle que soit la langue de la page.
   tagline: "Computer Science student by day, but CTF player by night.",
   intro: l(
-    "Tout système cache une faille, et toute faille raconte quelque chose sur ceux qui l'ont construite. Étudiant en informatique, je démonte la sécurité pour comprendre ce qui la tient debout — projets, audits, CTF, à toute heure. Je ne casse pas pour casser : je laisse la machine plus solide qu'avant. Cap sur la crypto et la sécurité de demain. Bonjour, ami.",
-    "Every system hides a flaw, and every flaw says something about the people who built it. Computer science student — I take security apart to see what holds it together: projects, audits, CTFs, at any hour. I don't break for the thrill; I leave the machine stronger than I found it. Next stop: cryptography and the security of tomorrow. Hello, friend.",
+    "Tout système cache une faille, et toute faille raconte quelque chose sur ceux qui l'ont construite. Étudiant en informatique, je démonte la sécurité pour comprendre ce qui la tient debout — projets, audits, CTF, à toute heure. Je ne casse pas pour casser : je laisse la machine plus solide qu'avant. Cap sur la crypto et la sécurité de demain.",
+    "Every system hides a flaw, and every flaw says something about the people who built it. Computer science student — I take security apart to see what holds it together: projects, audits, CTFs, at any hour. I don't break for the thrill; I leave the machine stronger than I found it. Next stop: cryptography and the security of tomorrow.",
   ),
   doctrine: "Understand the break. Own the fix. Leave the system stronger.",
   location: l("Lomé, Togo", "Lomé, Togo"),

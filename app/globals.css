@@ -239,3 +239,140 @@ body {
 .marquee { animation: marquee 32s linear infinite; }
 .marquee:hover { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-50%); } }
+
+/* --------------------------------------------------------------------- */
+/* Intro « Hello, friend. » — boot séquence façon Mr. Robot               */
+/* --------------------------------------------------------------------- */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: #04070b;
+  color: var(--green);
+  font-family: var(--font-mono-next), ui-monospace, monospace;
+  overflow: hidden;
+  cursor: pointer;
+  animation: boot-in 0.25s ease both;
+}
+.boot--out { animation: boot-out 0.6s ease forwards; }
+@keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes boot-out { to { opacity: 0; visibility: hidden; filter: blur(7px); } }
+
+.boot__center { position: relative; z-index: 2; padding: 0 24px; text-align: center; }
+
+.boot__line {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(1.9rem, 7.5vw, 4.6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(118, 226, 166, 0.35);
+}
+.boot__cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  margin-left: 0.08em;
+  vertical-align: -0.12em;
+  background: var(--green);
+  box-shadow: 0 0 14px rgba(118, 226, 166, 0.6);
+  animation: boot-blink 1s steps(1) infinite;
+}
+@keyframes boot-blink { 50% { opacity: 0; } }
+
+.boot__sub {
+  margin-top: 1.1rem;
+  min-height: 1.3em;
+  font-size: clamp(0.78rem, 2.6vw, 1rem);
+  letter-spacing: 0.1em;
+  color: rgba(118, 226, 166, 0.55);
+}
+
+/* scanlines CRT */
+.boot__scan {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.32) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  opacity: 0.55;
+  animation: boot-scan 7s linear infinite;
+}
+@keyframes boot-scan { to { background-position: 0 120px; } }
+
+/* vignette + flicker */
+.boot__noise {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse at center, transparent 52%, rgba(0, 0, 0, 0.65) 100%);
+  animation: boot-flicker 3.2s steps(14) infinite;
+}
+@keyframes boot-flicker {
+  0%, 100% { opacity: 0.82; }
+  7% { opacity: 0.58; }
+  12% { opacity: 0.92; }
+  41% { opacity: 0.72; }
+  74% { opacity: 0.96; }
+}
+
+/* burst glitch (séparation RGB + jitter) */
+.boot--glitch .boot__line { animation: boot-jitter 0.5s steps(2) 1; }
+.boot--glitch .boot__line::before,
+.boot--glitch .boot__line::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.boot--glitch .boot__line::before {
+  color: #ff4d6d;
+  animation: boot-shift-a 0.5s steps(2) 1;
+}
+.boot--glitch .boot__line::after {
+  color: #4dd2ff;
+  animation: boot-shift-b 0.5s steps(2) 1;
+}
+@keyframes boot-jitter {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 1px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes boot-shift-a {
+  0% { transform: translate(0, 0); clip-path: inset(0 0 72% 0); }
+  50% { transform: translate(-5px, -2px); clip-path: inset(40% 0 20% 0); }
+  100% { transform: translate(3px, 1px); clip-path: inset(0 0 0 0); }
+}
+@keyframes boot-shift-b {
+  0% { transform: translate(0, 0); clip-path: inset(68% 0 0 0); }
+  50% { transform: translate(5px, 2px); clip-path: inset(10% 0 55% 0); }
+  100% { transform: translate(-3px, -1px); clip-path: inset(0 0 0 0); }
+}
+
+.boot__skip {
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(118, 226, 166, 0.3);
+  animation: boot-blink 2.2s steps(1) infinite;
+}
